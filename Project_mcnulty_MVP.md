@@ -12,7 +12,7 @@ My current [dataset] is from Google Cloud's BigQuery public datasets. In that li
 there is a dataset containing every single play from the 2016 MLB season. There are
 in total 145 features and 762,000 entries. I would then have to subset the data to
 only examine plays that involved a player trying to steal a base. When doing so I am left with
-about 340 events. Some specific features that I feel would be relevant are:
+about 2500 events. Some specific features that I feel would be relevant are:
 
 |   Feature            | Variable Type |
 | :---------:          | :-----------: |
