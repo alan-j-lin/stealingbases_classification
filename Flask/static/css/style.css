@@ -1,0 +1,95 @@
+body{
+  background-color: #f47524;
+  font-family: 'Helvetica';
+}
+
+#description{
+  background-color: #00265d;
+  color: white;
+}
+
+#game_situation{
+  border: 2px solid black;
+  align-content: center;
+  background-color: #d1ba77;
+}
+
+
+#field{
+    background-image: url('../images/baseball_diamond.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right top;
+    margin: auto;
+    box-sizing: border-box;
+    background-color: #29571d;
+    height: 350px;
+    border: 2px solid black;
+    width: 500px;
+    height: 415px;
+    float: center;
+}
+
+#pitcher_img{
+  position: relative;
+  left: 245px;
+  bottom: -205px;
+}
+
+#hitter_img{
+  position: relative;
+  left: 190px;
+  bottom: -332px;
+}
+
+
+th{
+  font-size: 12;
+}
+
+tr{
+  font-size: 12;
+}
+
+table.table-bordered > thead > tr > th{
+    border:1px solid black;
+}
+table.table-bordered > tbody > tr > td{
+    border:1px solid black;
+}
+
+#submit{
+  background-color: #00265d;
+}
+
+#prediction{
+  font-size: 20;
+}
+
+
+.outcome_row{
+  color: white;
+  font-size: 20;
+}
+
+.o_header{
+  font-weight: bold;
+  text-align: left;
+  padding: 5px;
+}
+
+.o_value{
+  text-align: center;
+  padding: 5px;
+}
+
+
+
+
+#footer{
+  height: 100px;
+  font-family: 'Palatino';
+  font-size: 20;
+  background-color: #00265d;
+  color: white;
+}

@@ -1,0 +1,417 @@
+<html>
+
+  <title> Baseball Steal Predictor </title>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/static/css/style.css'/>
+  </head>
+
+  <body>
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"> Baseball Steal Predictor </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <!-- <li class="nav-item active">
+            <a class="nav-link" href="#">Description</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Application</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li> -->
+        </ul>
+      </div>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid text-center" id='description' style="margin-bottom:0">
+      <h1>A Mighty Curveball</h1>
+      <p>This is a predictor to determine whether or not for a competent baserunner, they
+      would be able to successfully steal a base or be caught stealing, ignoring pickoffs.</p>
+    </div>
+
+
+    <!-- <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <a class="dropdown-item" href="#!">Action</a>
+        <a class="dropdown-item" href="#!">Another action</a>
+      </div>
+    </div> -->
+
+    <div class='container'>
+      <div class="row" style="margin-top:5">
+        <!-- Division containing game situation information -->
+        <div class='col-sm-6' id='game_situation'>
+
+          <br>
+
+          <!-- Select statement for deciding where runner is on base  -->
+          <b>Runner on base</b>:
+          <select id='rob'>
+            <option value='1'> 1st base </option> <br>
+            <option value='2'> 2nd base </option> <br>
+            <option value='3'> 3rd base </option> <br>
+          </select>
+
+          <br>
+          <br>
+
+          <!-- Select statement for number of outs at the current at bat -->
+          <b>Number of outs</b>:
+          <select id='outs'>
+            <option value='0'> 0 </option>
+            <option value='1'> 1 </option>
+            <option value='2'> 2 </option>
+          </select>
+
+          <br>
+          <br>
+
+          <!-- Division containing all the pitcher information -->
+          <div id='pitcher'>
+
+            <!-- Select statement for the pitcher -->
+            <b>Pitcher</b>:
+            <select id='pitcher_select'>
+              <option value='Adam Wainwright'> Adam Wainwright </option>
+              <option value='Andrew Cashner'> Andrew Cashner </option>
+              <option value='Carlos Carrasco'> Carlos Carrasco </option>
+              <option value='Carlos Martinez'> Carlos Martinez </option>
+              <option value='Chris Archer'> Chris Archer </option>
+              <option value='Chris Sale'> Chris Sale </option>
+              <option value='Danny Salazar'> Danny Salazar </option>
+              <option value='Garrett Richards'> Garrett Richards </option>
+              <option value='Gerrit Cole'> Gerrit Cole </option>
+              <option value='Jacob deGrom'> Jacob deGrom </option>
+              <option value='Jake Arrieta'> Jake Arrieta </option>
+              <option value='Jeff Samardzija'> Jeff Samardzija </option>
+              <option value='Matt Harvey'> Matt Harvey </option>
+              <option value='Yordano Ventura'> Yordano Ventura </option>
+              <option value='Zack Greinke'> Zack Greinke </option>
+            </select>
+
+            <br>
+            <br>
+
+            <!-- Table that will get updated with pitcher pitch distribution stats -->
+            <div id='pitcher_stats'>
+              <table class="table table-bordered table-sm" >
+                <thead class='thead-dark'>
+                  <tr align='center'>
+                    <th>FB%</th>
+                    <th>FBv</th>
+                    <th>SL%</th>
+                    <th>SLv</th>
+                    <th>CT%</th>
+                    <th>CTv</th>
+                    <th>CB%</th>
+                    <th>CBv</th>
+                    <th>CH%</th>
+                    <th>CHv</th>
+                    <th>SF%</th>
+                    <th>SFv</th>
+                    <th>KN%</th>
+                    <th>KNv</th>
+                    <th>XX%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr align='center'>
+                    <td id='FB_per'>0</td>
+                    <td id='FBv'>0</td>
+                    <td id='SL_per'>0</td>
+                    <td id='SLv'>0</td>
+                    <td id='CT_per'>0</td>
+                    <td id='CTv'>0</td>
+                    <td id='CB_per'>0</td>
+                    <td id='CBv'>0</td>
+                    <td id='CH_per'>0</td>
+                    <td id='CHv'>0</td>
+                    <td id='SF_per'>0</td>
+                    <td id='SFv'>0</td>
+                    <td id='KN_per'>0</td>
+                    <td id='KNv'>0</td>
+                    <td id='XX_per'>0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+            <!-- Division containing all the hitter information -->
+          <div id='hitter'>
+
+            <!-- Select statement for the hitter -->
+            <b>Hitter</b>:
+              <select id='hitter_select'>
+                <option value='Andrew McCutchen'> Andrew McCutchen </option>
+                <option value='Angel Pagan'> Angel Pagan </option>
+                <option value='Brett Gardner'> Brett Gardner </option>
+                <option value='Carlos Santana'> Carlos Santana </option>
+                <option value='Curtis Granderson'> Curtis Granderson </option>
+                <option value='Joey Votto'> Joey Votto </option>
+                <option value='Jose Bautista'> Jose Bautista </option>
+                <option value='Justin Upton'> Justin Upton </option>
+                <option value='Logan Forsythe'> Logan Forsythe </option>
+                <option value='Matt Carpenter'> Matt Carpenter </option>
+                <option value='Mike Trout'> Mike Trout </option>
+                <option value='Mookie Betts'> Mookie Betts </option>
+                <option value='Paul Goldschmidt'> Paul Goldschmidt </option>
+                <option value='Russell Martin'> Russell Martin </option>
+                <option value='Shin-Soo Choo'> Shin-Soo Choo </option>
+              </select>
+
+              <br>
+              <br>
+
+
+              <!-- Table that will get updated with hitter plate discipline stats -->
+              <div id='hitter_stats'>
+                <table class="table table-bordered table-sm" >
+                  <thead class='thead-dark'>
+                    <tr align='center'>
+                      <th>O-Swing%</th>
+                      <th>Z-Swing%</th>
+                      <th>Swing%</th>
+                      <th>O-Contact%</th>
+                      <th>Z-Contact%</th>
+                      <th>Contact%</th>
+                      <th>Zone%</th>
+                      <th>F-Strike%</th>
+                      <th>SwStr%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr align='center'>
+                      <td id='o_swing_per'>0</th>
+                      <td id='z_swing_per'>0</td>
+                      <td id='swing_per'>0</td>
+                      <td id='o_contact_per'>0</td>
+                      <td id='z_contact_per'>0</td>
+                      <td id='contact_per'>0</td>
+                      <td id='zone_per'>0</td>
+                      <td id='f_strike_per'>0</td>
+                      <td id='swstr_per'>0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Image of baseball field -->
+          <div class="col-sm-6" id='field' style="margin-top:0">
+
+              <!-- Pitcher image -->
+              <img class='img-thumbnail' id='pitcher_img' src="./static/images/pitcher/{{pitcher}}.jpg" width='50'/>
+
+
+              <!-- Hitter image -->
+              <img class='img-thumbnail' id='hitter_img' src="./static/images/hitter/{{hitter}}.jpg" width='50'/>
+
+          </div>
+
+
+        </div>
+
+
+
+
+
+        <div class='row' style="margin-top:10" >
+
+          <div id='prediction'>
+
+            <button type='button' class="btn btn-primary btn-block" id='submit'> Make Prediction </button>
+
+            Our prediction is:
+            <table id='outcome'>
+              <tr class='outcome_row'><td class='o_header'>Outcome</td><td class='o_value'id="hard_predict"> </td></tr>
+              <tr class='outcome_row'><td class='o_header'>Probability</td><td class='o_value' id="soft_predict"> </td></tr>
+              <tr class='outcome_row'><td class='o_header'>Estimated Expected <br> Runs Difference</td><td class='o_value' id='expected_run'> </td></tr>
+            </table>
+
+            <br>
+
+          </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="jumbotron jumbotron-fluid text-center" id='footer' style="margin-bottom:0">
+          Find the code on my <a href="https://github.com/alan-j-lin/stealingbases_classification">Github</a>
+    </div>
+
+  </body>
+  <!-- Jquery script implementation -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script>
+
+    $('#submit').click( () => {
+      do_prediction();} );
+
+    $('#hitter_select').change( () => {
+      render_playerimages('hitter_img');
+      change_playerstats($('#hitter_select').val(), 'hitter');
+    } );
+
+    $('#pitcher_select').change( () => {
+      render_playerimages('pitcher_img');
+      change_playerstats($('#pitcher_select').val(), 'pitcher');
+    } );
+
+
+    // function that will perform prediction
+    function do_prediction(){
+
+      // features that will used in the model prediction
+      let features = {
+        'Pitcher': $('#pitcher_select').val(),
+        'Hitter': $('#hitter_select').val(),
+        'is_rob1': $('#rob').val() == '1' ? 1 : 0,
+        'is_rob2': $('#rob').val() == '2' ? 1 : 0,
+        'is_rob3': $('#rob').val() == '3' ? 1 : 0,
+        'startingouts': $('#outs').val()
+      };
+
+      console.log(features);
+
+      // Create expected runs key
+      er_key = (String(features['startingouts']) + String(features['is_rob1']) +
+            String(features['is_rob2']) + String(features['is_rob3']));
+
+      // Handle conditional where there are no baserunners, which means no way to steal a base
+      if ((features['is_rob1'] + features['is_rob2'] + features['is_rob3']) != 0) {
+        $.ajax({
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          url: "/predict",  // Replace with URL of POST handler
+          dataType: "json",
+          async: true,
+          data: JSON.stringify(features),
+          success: (result) => {
+            $('#hard_predict').html(result['prediction'] ? 'Stolen Base' : 'Caught Stealing' );
+            $('#soft_predict').html(result['prob_steal']);
+            $('#expected_run').html(result['ER_delta']);
+          },
+          error: (result) => {
+            alert('Everything is broken!');
+          }
+        })
+      }
+      // If there are no baserunners that prediction will be that there are no runners on base
+      else {
+        $('#hard_predict').html('No runners on base');
+        $('#soft_predict').html('0.0%');
+        $('#expected_run').html('');
+      };
+    };
+
+
+    // function that changes the player image
+    function render_playerimages(position){
+
+      let img = document.getElementById(position);
+
+      switch (position == 'hitter_img') {
+
+        case true:
+          player = $('#hitter_select').val();
+          console.log(player);
+          img.src="/static/images/hitter/" + player + ".jpg";
+          break;
+
+        case false:
+          player = $('#pitcher_select').val();
+          console.log(player);
+          img.src="/static/images/pitcher/" + player + ".jpg";
+      }
+
+
+    };
+
+    // function that loads in the player stats
+    function change_playerstats(player, pos){
+
+      let details = {
+        'Player': player,
+        'Pos': pos
+      };
+
+
+      $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/stats",  // Replace with URL of POST handler
+        dataType: "json",
+        async: true,
+        data: JSON.stringify(details),
+        success: (stats) => {
+
+          if ($.type(stats) === "string") {
+            console.log(stats)
+          }
+          else{
+            switch (pos == 'hitter') {
+              case true:
+                $('#o_swing_per').html(stats['o_swing_per'])
+                $('#z_swing_per').html(stats['z_swing_per'])
+                $('#swing_per').html(stats['swing_per'])
+                $('#o_contact_per').html(stats['o_contact_per'])
+                $('#z_contact_per').html(stats['z_contact_per'])
+                $('#contact_per').html(stats['contact_per'])
+                $('#zone_per').html(stats['zone_per'])
+                $('#f_strike_per').html(stats['f_strike_per'])
+                $('#swstr_per').html(stats['swstr_per'])
+                break;
+              case false:
+                $('#FB_per').html(stats['FB_per'])
+                $('#FBv').html(stats['FBv'])
+                $('#SL_per').html(stats['SL_per'])
+                $('#SLv').html(stats['SLv'])
+                $('#CT_per').html(stats['CT_per'])
+                $('#CTv').html(stats['CTv'])
+                $('#CB_per').html(stats['CB_per'])
+                $('#CBv').html(stats['CBv'])
+                $('#CH_per').html(stats['CH_per'])
+                $('#CHv').html(stats['CHv'])
+                $('#SF_per').html(stats['SF_per'])
+                $('#SFv').html(stats['SFv'])
+                $('#KN_per').html(stats['KN_per'])
+                $('#KNv').html(stats['KNv'])
+                $('#XX_per').html(stats['XX_per'])
+                break;
+            }
+          };
+        },
+        error: (result) => {
+          alert('Stats are broken!');
+        }
+      })
+
+
+    };
+
+
+
+
+
+  </script>
+
+</html>
